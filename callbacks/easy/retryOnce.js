@@ -7,6 +7,23 @@
 
 
 function retryOnce(fn) {
+      return (cb)=>{
+        fn((err,result)=>{
+            if(!err){
+                cb(null,result);
+            }
+            else{
+                fn((err,result)=>{
+                    if(!err){
+                        cb(null,result);
+                    }
+                    else{
+                        cb(err,null);
+                    }
+                })
+            }
+        })
+    }
 
 }
 
