@@ -10,7 +10,17 @@
 
 
 function fetchWithTimeout(url, ms, callback) {
-
+    let start = Date.now();
+    fetch(url,(err,data)=>{
+        let end = Date.now();
+        let diff = end - start;
+        if(diff <= ms){
+            callback(null,data);
+        }
+        else{
+            callback(new Error("Request Timed Out"));
+        }
+    })
 }
 
 module.exports = fetchWithTimeout;
