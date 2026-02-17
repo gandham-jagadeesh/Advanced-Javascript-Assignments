@@ -8,8 +8,20 @@
 // When the Promise rejects, the callback should be called with the error.
 
 
-function callbackify(fn) {
-
+function callbackify(...fn) {
+    let f = fn[ fn.length - 1 ];
+    return  (...cb)=>{
+        let c = cb[ cb.length - 1 ]; 
+        let n = [];
+        if(cb.length > 1){
+            n = cb.slice(0,cb.length-1);
+        }
+        f(...n).then((data)=>{
+            c(null,data);
+        }).catch((err)=>{
+            c(err);
+        })
+    }
 }
 
 module.exports = callbackify;
